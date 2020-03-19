@@ -1,63 +1,95 @@
-import React,{Component} from 'react'
+import React, { Component } from 'react'
 
 import Header from '../../components/headers'
+import Smallcard from '../../components/card'
+import Table from '../../components/table'
 
 import GetLatestShipmentByEmail from '../../services/get_shipment.service'
 
-class Dashboard extends Component{
-    
-    constructor(props){
+class Dashboard extends Component {
+
+    constructor(props) {
         super(props)
         this.state = {
-            data : {
+            data: {
 
             },
-            counters : {
+            counters: {
 
-            }
+            },
+            tableData : []
         }
     }
 
     async componentDidMount() {
         const response = await GetLatestShipmentByEmail()
-        const {data} = response
-        this.setState({data})
+        const { data } = response
+        this.setState({ data })
         this._categoryCounter()
     }
 
     _categoryCounter = () => {
         const counters = this.state.data.data.reduce(
             (previousValue, currentValue) => {
-                const {current_status_code} = currentValue
-                if(previousValue.hasOwnProperty(current_status_code)){
+                const { current_status_code } = currentValue
+                if (previousValue.hasOwnProperty(current_status_code)) {
                     previousValue[current_status_code] += 1
-                }else{
+                } else {
                     previousValue[current_status_code] = 1
                 }
                 return previousValue
-            },{}
+            }, {}
         )
-        this.setState({counters})
+        this.setState({ counters })
+    }
+
+    _setTable = (category) => {
+        const tableData = this.state.data.data.filter(item => {
+            return item.current_status_code === category
+        })
+        this.setState({tableData})
     }
 
     _header = () => (
-        <Header/>
-    )   
+        <Header />
+    )
 
     _categoryCard = () => {
-        return(
-            <h1>category card</h1>
+        const keys = Object.keys(this.state.counters);
+        return (
+            <div style={{display: 'flex', flexDirection: 'row' , justifyContent:'center', marginTop : '20px'}}>
+                 {keys.map(item => {
+                return (
+                    <Smallcard category = {item} count = {this.state.counters[item]} setTable = {this._setTable}/> 
+                )
+            })}
+            </div>
+           
+
         )
     }
 
-    _dataInsight = () => {
+    _tableData = () => {
         return(
-            <h1>data insight</h1>
+            <Table tableDetails = {this.state.tableData}/>
+        )
+    }
+
+    _timeline = () => {
+
+    }
+
+    _dataInsight = () => {
+        return (
+            <>
+                {this._tableData()}
+                {this._timeline()}
+            </>
         )
     }
 
     _generateContainer = () => {
-        return(
+        return (
             <>
                 {this._header()}
                 {this._categoryCard()}
@@ -65,13 +97,16 @@ class Dashboard extends Component{
             </>
         )
     }
-    render(){
-        return(
-            <>
+    render() {
+        return (
+            <> 
                 {this._generateContainer()}
             </>
         )
     }
 }
+
+
+
 
 export default Dashboard
