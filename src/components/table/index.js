@@ -13,10 +13,9 @@ class TableComponent extends Component{
         super(props)
     }
     render(){
-        console.log(this.props, "from table ")
         return(
             <TableContainer component={Paper}>
-                <Table stickyHeader={true}  style={{minWidth: 650}} aria-label="simple table">
+                <Table stickyHeader={true}  style={{minWidth: 650, paddingTop: "1%"}} aria-label="simple table">
                     <TableHead>
                     <TableRow>
                         <TableCell>AWBNUMBER</TableCell>
@@ -31,7 +30,7 @@ class TableComponent extends Component{
                     </TableHead>
                     <TableBody>
                     {this.props.tableDetails.map(row => (
-                        <TableRow onClick={()=> {return this.props.setTimeLine(row._id)}}>
+                        <TableRow onClick={()=> {return this.props.setTimeLine(row._id)}} style={{cursor: "pointer"}}>
                         <TableCell component="th" scope="row">{row.awbno}</TableCell>
                         <TableCell align="right">{row.carrier}</TableCell>
                         <TableCell align="right">{row.from}</TableCell>
@@ -39,7 +38,7 @@ class TableComponent extends Component{
                         <TableCell align="right">{row.order_data}</TableCell>
                         <TableCell align="right">{row.pickup_date}</TableCell>
                         <TableCell align="right">{row.extra_fields ? row.extra_fields.expected_delivery_date : '-'}</TableCell>
-                        <TableCell align="right">{row.current_status}</TableCell>
+                    <TableCell align="right">{ row.current_status === "Delivered" ? <span style={{color: "green"}}>Delivered</span> :  <span style={{color: "red"}}>{row.current_status}</span>}</TableCell>
                         </TableRow>
                     ))}
                     </TableBody>

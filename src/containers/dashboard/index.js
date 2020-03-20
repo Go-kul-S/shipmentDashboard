@@ -4,6 +4,8 @@ import {Timeline, TimelineEvent} from 'react-event-timeline'
 import Header from '../../components/headers'
 import Smallcard from '../../components/card'
 import Table from '../../components/table'
+import Warehourse from '../../assets/warehouse.svg'
+import Dest from '../../assets/destination.svg'
 
 import GetLatestShipmentByEmail from '../../services/get_shipment.service'
 
@@ -44,6 +46,7 @@ class Dashboard extends Component {
             }, {}
         )
         this.setState({ counters })
+        this._setTable("OOD")
     }
 
     _setTable = (category) => {
@@ -93,15 +96,22 @@ class Dashboard extends Component {
             return(
                 <Timeline>
                     {
-                        timeLineData.map(item => {
+                        <>                        
+                        
+                        {timeLineData.map(item => {
                             return (
+                                <>
                                 <TimelineEvent>
                                     <span>
-                                        {item.status_detail}
+                                        {`${item.status_detail}  ${item.time}`}
                                     </span>
                                 </TimelineEvent>
-                            )
-                        })
+                            
+                                </>
+                            ) 
+                        })}
+                
+                        </>
                     }
                 </Timeline>
             )
@@ -119,7 +129,8 @@ class Dashboard extends Component {
                     <div style={{
                         height:"500px",
                         overflowX:"none",
-                        flexBasis: "28%"
+                        flexBasis: "28%",
+                        padding:"3%"
                     }}>
                     {this._timeline()}  
                     </div>
@@ -138,7 +149,7 @@ class Dashboard extends Component {
     }
 
     _generateContainer = () => {
-
+        
         return (
             <>
                 {this._categoryCard()}
@@ -149,7 +160,9 @@ class Dashboard extends Component {
     render() {
         return (
             <> {this._header()}
-                {this._generateContainer()}
+            {
+                this.state.loading? "Loading..." : this._generateContainer()
+            }
             </>
         )
     }
