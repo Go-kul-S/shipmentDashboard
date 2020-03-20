@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Timeline, TimelineEvent} from 'react-event-timeline'
 
 import Header from '../../components/headers'
 import Smallcard from '../../components/card'
@@ -17,14 +18,16 @@ class Dashboard extends Component {
             counters: {
 
             },
-            tableData : []
+            tableData : [],
+            loading: true,
+            timeLineData: [],
         }
     }
 
     async componentDidMount() {
         const response = await GetLatestShipmentByEmail()
         const { data } = response
-        this.setState({ data })
+        this.setState({ data, loading:false })
         this._categoryCounter()
     }
 
@@ -69,29 +72,75 @@ class Dashboard extends Component {
         )
     }
 
+    _setTimeLine = (id) => {
+        const timeLineData = this.state.tableData.filter(item => {
+            if( item._id === id ){
+                return item
+            }
+        })
+        this.setState({timeLineData})
+    }
+
     _tableData = () => {
         return(
-            <Table tableDetails = {this.state.tableData}/>
+                <Table tableDetails = {this.state.tableData} setTimeLine={(id) => this._setTimeLine(id)}/>
         )
     }
 
     _timeline = () => {
-
+        if(this.state.timeLineData.length){
+            const timeLineData = this.state.timeLineData[0].scan
+            return(
+                <Timeline>
+                    {
+                        timeLineData.map(item => {
+                            return (
+                                <TimelineEvent>
+                                    <span>
+                                        {item.status_detail}
+                                    </span>
+                                </TimelineEvent>
+                            )
+                        })
+                    }
+                </Timeline>
+            )
+        }
     }
 
     _dataInsight = () => {
         return (
             <>
-                {this._tableData()}
-                {this._timeline()}
+                <div
+                    style={{
+                        display: 'flex', flexDirection: 'row' , justifyContent:'center'
+                    }}
+                >
+                    <div style={{
+                        height:"500px",
+                        overflowX:"none",
+                        flexBasis: "28%"
+                    }}>
+                    {this._timeline()}  
+                    </div>
+                    <div style={{
+                        height:"500px",
+                        overflowY:"auto",
+                        overflowX:"auto",
+                        flexBasis: "70%"
+                    }}>
+                    {this._tableData()}
+                    </div>
+                </div>
+                
             </>
         )
     }
 
     _generateContainer = () => {
+
         return (
             <>
-                {this._header()}
                 {this._categoryCard()}
                 {this._dataInsight()}
             </>
@@ -99,7 +148,7 @@ class Dashboard extends Component {
     }
     render() {
         return (
-            <> 
+            <> {this._header()}
                 {this._generateContainer()}
             </>
         )

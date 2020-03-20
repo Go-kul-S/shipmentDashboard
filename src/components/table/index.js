@@ -9,11 +9,14 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 class TableComponent extends Component{
+    constructor(props){
+        super(props)
+    }
     render(){
-        console.log(this.props.tableDetails, "from table ")
+        console.log(this.props, "from table ")
         return(
             <TableContainer component={Paper}>
-                <Table style={{minWidth: 650}} aria-label="simple table">
+                <Table stickyHeader={true}  style={{minWidth: 650}} aria-label="simple table">
                     <TableHead>
                     <TableRow>
                         <TableCell>AWBNUMBER</TableCell>
@@ -28,7 +31,7 @@ class TableComponent extends Component{
                     </TableHead>
                     <TableBody>
                     {this.props.tableDetails.map(row => (
-                        <TableRow onClick={()=> {this.props.setTimeline(row._id)}}>
+                        <TableRow onClick={()=> {return this.props.setTimeLine(row._id)}}>
                         <TableCell component="th" scope="row">{row.awbno}</TableCell>
                         <TableCell align="right">{row.carrier}</TableCell>
                         <TableCell align="right">{row.from}</TableCell>
