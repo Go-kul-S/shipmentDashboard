@@ -4,8 +4,6 @@ import {Timeline, TimelineEvent} from 'react-event-timeline'
 import Header from '../../components/headers'
 import Smallcard from '../../components/card'
 import Table from '../../components/table'
-import Warehourse from '../../assets/warehouse.svg'
-import Dest from '../../assets/destination.svg'
 
 import GetLatestShipmentByEmail from '../../services/get_shipment.service'
 

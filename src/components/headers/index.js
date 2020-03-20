@@ -30,21 +30,23 @@ class Header extends Component {
                     <Typography edge="start" variant="h6" className={this.state.title} style={{color: '#271D18', fontWeight : '600'}}>
                         Intugine
                     </Typography>
-                    <span style={{float:"right", margin:"auto"}}>
-                      <Typography variant="h6" style={{color: '#271D18', float : "right", fontWeight : '600'}}>
+                    <div style={{float:"right", margin:"auto", marginRight:"1%"}}>
+
+                      <Typography variant="h6" style={{color: '#271D18', float : "left", fontWeight : '600', padding:'10px'}}>
                           Home
                       </Typography>
-                    </span>
-                    <span style={{float:"right", margin:'10px'}}>
-                      <Typography variant="h6" style={{color: '#271D18', float : "right", fontWeight : '600'}}>
+                   
+                    
+                      <Typography variant="h6" style={{color: '#271D18', float : "right", fontWeight : '600', padding:'10px'}}>
                           Brands
                       </Typography>
-                      </span>
-                    <span style={{float:"right", margin: '10px'}}>
-                      <Typography variant="h6" style={{color: '#271D18', float : "right", fontWeight : '600'}}>
+                     
+                    
+                      <Typography variant="h6" style={{color: '#271D18', float : "right", fontWeight : '600', padding:'10px'}}>
                           Transporters
                       </Typography>
-                    </span>
+                    </div>
+                   
                     <img src={Profile} alt="profile"/>
                       
                 </Toolbar>
